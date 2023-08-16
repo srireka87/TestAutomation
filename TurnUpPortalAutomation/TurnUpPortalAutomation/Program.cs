@@ -162,7 +162,6 @@ Thread.Sleep(1000);
 alert.Accept();
 
 
-//validate whether the records has been deleted
 
 
 
