@@ -87,7 +87,82 @@ else
     Console.WriteLine("New Record is not matching and Unsuccessful");
 }
 
+Thread.Sleep(2000);
+//Edit /Delete Functionality
+//Go to the last page to click Edit button of the last row record
+Thread.Sleep(2000);
 
+//Click Edit button
+IWebElement editButton = driver.FindElement(By.XPath("//tbody/tr[last()]/td[5]/a[1]"));
+editButton.Click();
+
+//Select Typo Code
+IWebElement typeCodeDropdown = driver.FindElement(By.XPath("//*[@id=\"TimeMaterialEditForm\"]/div/div[1]/div/span[1]/span/span[2]/span"));
+typeCodeDropdown.Click();
+
+IWebElement timeTypeCode = driver.FindElement(By.XPath("//*[@id=\"TypeCode_listbox\"]/li[2]"));
+timeTypeCode.Click();
+
+//Enter Code
+IWebElement editCode = driver.FindElement(By.Id("Code"));
+editCode.Clear();
+editCode.SendKeys("task8");
+
+//Enter Description
+IWebElement editDescription = driver.FindElement(By.Id("Description"));
+editDescription.Clear();
+editDescription.SendKeys("Editing the Description");
+
+//Enter Price
+IWebElement editPriceOverlappingTag = driver.FindElement(By.XPath("//*[@id=\"TimeMaterialEditForm\"]/div/div[4]/div/span[1]/span/input[1]"));
+IWebElement editPrice = driver.FindElement(By.Id("Price"));
+editPriceOverlappingTag.Click();
+editPrice.Clear();
+editPriceOverlappingTag.Click();
+editPrice.SendKeys("500");
+
+
+Thread.Sleep(1000);
+
+//Click Save button
+IWebElement editSaveButton = driver.FindElement(By.Id("SaveButton"));
+editSaveButton.Click();
+
+Thread.Sleep(1000);
+//go to last page and check the edited details
+IWebElement editLastPage = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span"));
+editLastPage.Click();
+
+IWebElement editedActualData = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
+Console.WriteLine(editedActualData);
+
+//validation Editingdata
+if (editedActualData.Text == "task8")
+{
+    Console.WriteLine("Edited Record details are matching and successfull");
+}
+else
+{
+    Console.WriteLine("Edited records are not matching and unsuccessful");
+}
+
+Thread.Sleep(1000);
+//Delete the records
+//locate the Delete button and Click
+IWebElement deleteButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[5]/a[2]"));
+deleteButton.Click();
+
+//Pop up msg --switching to Alert
+IAlert alert = driver.SwitchTo().Alert();
+String alertMsg = driver.SwitchTo().Alert().Text;
+Console.WriteLine(alertMsg);
+
+Thread.Sleep(1000);
+//click Ok
+alert.Accept();
+
+
+//validate whether the records has been deleted
 
 
 
