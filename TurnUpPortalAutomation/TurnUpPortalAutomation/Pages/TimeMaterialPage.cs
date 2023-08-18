@@ -1,9 +1,11 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TurnUpPortalAutomation.Utilities;
 
 namespace TurnUpPortalAutomation.Pages
 {
@@ -36,9 +38,7 @@ namespace TurnUpPortalAutomation.Pages
             IWebElement saveButton = driver.FindElement(By.Id("SaveButton"));
             saveButton.Click();
 
-            //Telling the Browser to wait until the page load
-            Thread.Sleep(5000);
-
+            Wait.WaitToBeClickable(driver, "XPath", "//*[@id=\"tmsGrid\"]/div[4]/a[4]/span", 5);
 
             //Go to the last page
             IWebElement goToLastPage = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span"));
@@ -48,23 +48,20 @@ namespace TurnUpPortalAutomation.Pages
             IWebElement actualData = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
 
             //Validation the Actual records with Expected Record
-            if (actualData.Text == "Task7")
-            {
-                Console.WriteLine("New Record is matching and created successfully");
-
-            }
-            else
-            {
-                Console.WriteLine("New Record is not matching and Unsuccessful");
-            }
-
-            Thread.Sleep(2000);
+            Assert.That(actualData.Text == "Task7", "New Record is not matching and Unsuccessful");
+         
         }
+
         public void EditRecord(IWebDriver driver)
         {
-            //Edit /Delete Functionality
-            //Go to the last page to click Edit button of the last row record
-            Thread.Sleep(2000);
+            //click the last page arrow button
+            Wait.WaitToBeVisible(driver, "XPath", "//*[@id=\"tmsGrid\"]/div[4]/a[4]/span",5);
+
+            IWebElement editLastPage = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span"));
+            editLastPage.Click();
+
+
+            Wait.WaitToBeClickable(driver, "XPath", "//tbody/tr[last()]/td[5]/a[1]", 5);
 
             //Click Edit button
             IWebElement editButton = driver.FindElement(By.XPath("//tbody/tr[last()]/td[5]/a[1]"));
@@ -95,50 +92,57 @@ namespace TurnUpPortalAutomation.Pages
             editPriceOverlappingTag.Click();
             editPrice.SendKeys("500");
 
-
-            Thread.Sleep(1000);
-
             //Click Save button
             IWebElement editSaveButton = driver.FindElement(By.Id("SaveButton"));
             editSaveButton.Click();
-
-            Thread.Sleep(1000);
+            
+            Wait.WaitToBeVisible(driver, "XPath","//*[@id=\"tmsGrid\"]/div[4]/a[4]/span", 7);
+     
             //go to last page and check the edited details
-            IWebElement editLastPage = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span"));
-            editLastPage.Click();
+            IWebElement editLastPage1 = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span"));
+            editLastPage1.Click();
 
-            IWebElement editedActualData = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
-            Console.WriteLine(editedActualData);
-
-            //validation Editingdata
-            if (editedActualData.Text == "task8")
+            try
             {
-                Console.WriteLine("Edited Record details are matching and successfull");
-            }
-            else
-            {
-                Console.WriteLine("Edited records are not matching and unsuccessful");
-            }
+                Wait.WaitToBeVisible(driver,"XPath","//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]", 5);
 
-            Thread.Sleep(1000);
+                IWebElement editedActualData = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
+                Console.WriteLine(editedActualData);
+
+
+                //validation Editingdata with Assertion
+                Assert.That(editedActualData.Text == "task8","Edited records are not matching and unsuccessful");
+
+            }catch( Exception ex)
+            {
+                Assert.Fail("why edit records are not matching", ex.Message);
+            }
 
         }
 
         public void DeleteRecord( IWebDriver driver) 
         {
-            //Delete the records
-            //locate the Delete button and Click
-            IWebElement deleteButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[5]/a[2]"));
-            deleteButton.Click();
+            //Locate the Delete button and Click
+            try
+            {
+                Wait.WaitToBeClickable(driver, "XPath", "//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[5]/a[2]", 7);
 
-            //Pop up msg --switching to Alert
-            IAlert alert = driver.SwitchTo().Alert();
-            string alertMsg = driver.SwitchTo().Alert().Text;
-            Console.WriteLine(alertMsg);
+                IWebElement deleteButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[5]/a[2]"));
+                deleteButton.Click();
 
-            Thread.Sleep(1000);
-            //click Ok
-            alert.Accept();
+                //Pop up msg --switching to Alert
+                IAlert alert = driver.SwitchTo().Alert();
+                string alertMsg = driver.SwitchTo().Alert().Text;
+                Console.WriteLine(alertMsg);
+
+                //click Ok
+                alert.Accept();
+
+            } catch ( Exception ex)
+
+            { Assert.Fail("Cant find the element location",ex.Message); 
+            }
+
         }
 
     }
