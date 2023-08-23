@@ -43,13 +43,13 @@ namespace TurnUpPortalAutomation.Pages
             //Go to the last page
             IWebElement goToLastPage = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span"));
             goToLastPage.Click();
-
-            //select the las row of the records
-            IWebElement actualData = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
-
-            //Validation the Actual records with Expected Record
-            Assert.That(actualData.Text == "Task7", "New Record is not matching and Unsuccessful");
          
+        }
+
+        public string GetActualData(IWebDriver driver)
+        { //select the last row of the records
+            IWebElement actualData = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
+            return actualData.Text;
         }
 
         public void EditRecord(IWebDriver driver)

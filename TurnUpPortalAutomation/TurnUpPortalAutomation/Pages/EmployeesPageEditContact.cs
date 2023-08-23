@@ -1,4 +1,6 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +14,13 @@ namespace TurnUpPortalAutomation.Pages
     {
         public  void EmployeesPageEditContactDetails(IWebDriver driver)
         {
-            //string handle = driver.getWindowHandle();
 
+            //switching  to Edit contact page window 
+            driver.SwitchTo().Frame(0);
+
+            IWebElement editContactWindow = driver.FindElement(By.XPath("/html/body/div[8]"));
+            editContactWindow.Click();
+            
             //Enter First Name in Edit Contact Employees Page
             IWebElement firstNameEditContactTextBox = driver.FindElement(By.Id("FirstName"));
             firstNameEditContactTextBox.SendKeys("Carla");
@@ -66,7 +73,8 @@ namespace TurnUpPortalAutomation.Pages
             IWebElement saveEditContactButton = driver.FindElement(By.Id("submitButton"));
             saveEditContactButton.Click();
 
-
+            driver.SwitchTo().DefaultContent();
+            
 
         }
     }

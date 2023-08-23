@@ -33,21 +33,21 @@ namespace TurnUpPortalAutomation.Tests
   
         }
 
-        //[Test]
-        //public void EditEmployees_Test()
-        //{
+        /*[Test]
+        public void EditEmployees_Test()
+        {
 
-        //}
+        }
 
-        //[Test]
-        //public void DeleteEmployees_Test()
-        //{ 
-        //}
-       // [TearDown]
-        //public void CloseTestRun()
-        //{
-        //    driver.Quit();
-        //}
+        [Test]
+        public void DeleteEmployees_Test()
+        { 
+        }
+       [TearDown]
+        public void CloseTestRun()
+        {
+            driver.Quit();
+        }*/
     }
 
 }
