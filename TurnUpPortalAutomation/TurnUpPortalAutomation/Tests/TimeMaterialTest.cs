@@ -26,20 +26,20 @@ namespace TurnUpPortalAutomation.Tests
             homePageObj.GoToTimeMaterialPage(driver);
         }
 
-        [Test]
+        [Test,Order(1),Description("This test is used to create a New Time&Materials Records")]
         public void CreateTM_Test()
         {
             TimeMaterialPage timeMaterialPageObj = new TimeMaterialPage();
             timeMaterialPageObj.CreateTimeRecord(driver);
 
         }
-        [Test]
+        [Test,Order(2),Description("This test is used to update the Time&Materials Records")]
         public void EditTM_Test()
         {
             TimeMaterialPage timeMaterialPageObj = new TimeMaterialPage();
-            timeMaterialPageObj.EditRecord(driver);
+            timeMaterialPageObj.EditRecord(driver,"PassingArguments");
         }
-        [Test]
+        [Test,Order(3),Description("This test is used to delete the Time&Materials Records")]
         public void DeleteTM_Test()
         {
             TimeMaterialPage timeMaterialPageObj = new TimeMaterialPage();

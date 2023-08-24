@@ -25,7 +25,7 @@ namespace TurnUpPortalAutomation.Tests
             homePageObj.GoToEmployeesPage(driver);
         }
 
-        [Test] 
+        [Test, Order(1), Description("This test is used to create a New Employees Records")] 
         public void CreateEmployees_Test()
         { 
             EmployeesPage employeesPageObj = new EmployeesPage();
@@ -33,17 +33,21 @@ namespace TurnUpPortalAutomation.Tests
   
         }
 
-        /*[Test]
+        [Test, Order(2), Description("This test is used to Edit the Employees Records")]
         public void EditEmployees_Test()
         {
-
+            EmployeesPage employeesPageObj = new EmployeesPage();
+            employeesPageObj.EditEmployees(driver);
         }
 
-        [Test]
+        [Test, Order(3), Description("This test is used to delete the Employees Records")]
         public void DeleteEmployees_Test()
-        { 
+        {
+            EmployeesPage employeesPageObj = new EmployeesPage();
+            employeesPageObj.DeleteEmployees(driver);
+
         }
-       [TearDown]
+      /* [TearDown]
         public void CloseTestRun()
         {
             driver.Quit();

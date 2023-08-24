@@ -52,7 +52,7 @@ namespace TurnUpPortalAutomation.Pages
             return actualData.Text;
         }
 
-        public void EditRecord(IWebDriver driver)
+        public void EditRecord(IWebDriver driver,string code1)
         {
             //click the last page arrow button
             Wait.WaitToBeVisible(driver, "XPath", "//*[@id=\"tmsGrid\"]/div[4]/a[4]/span",5);
@@ -77,7 +77,7 @@ namespace TurnUpPortalAutomation.Pages
             //Enter Code
             IWebElement editCodeTextBox = driver.FindElement(By.Id("Code"));
             editCodeTextBox.Clear();
-            editCodeTextBox.SendKeys("task8");
+            editCodeTextBox.SendKeys(code1);
 
             //Enter Description
             IWebElement editDescriptionTextBox = driver.FindElement(By.Id("Description"));
@@ -100,24 +100,13 @@ namespace TurnUpPortalAutomation.Pages
      
             //go to last page and check the edited details
             IWebElement editGoToLastPage1 = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span"));
-            editGoToLastPage1.Click();
+            editGoToLastPage1.Click();    
 
-            try
-            {
-                Wait.WaitToBeVisible(driver,"XPath","//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]", 5);
-
-                IWebElement editedActualData = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
-                Console.WriteLine(editedActualData);
-
-
-                //validation Editingdata with Assertion
-                Assert.That(editedActualData.Text == "task8","Edited records are not matching and unsuccessful");
-
-            }catch( Exception ex)
-            {
-                Assert.Fail("why edit records are not matching", ex.Message);
-            }
-
+        }
+        public string GetEditedActualData(IWebDriver driver)
+        {
+            IWebElement editedActualData = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
+            return editedActualData.Text;
         }
 
         public void DeleteRecord( IWebDriver driver) 

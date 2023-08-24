@@ -40,5 +40,21 @@ namespace TurnUpPortalAutomation.StepDefinitions
             string newActualData =timeMaterialPageObj.GetActualData(driver);
             Assert.That(newActualData == "Task7","New Record is not matching and Unsuccessful");
         }
+
+        [When(@"I  update '([^']*)'on existing Time Records")]
+        public void WhenIUpdateOnExistingTimeRecords(string parameterTestData)
+        {
+            TimeMaterialPage timeMaterialPageObj= new TimeMaterialPage();
+            timeMaterialPageObj.EditRecord(driver, parameterTestData);
+        }
+
+        [Then(@"the record should have updated '([^']*)'")]
+        public void ThenTheRecordShouldHaveUpdated(string parameterTestData)
+        {
+            TimeMaterialPage timeMaterialPageObj=new TimeMaterialPage();
+            string newActualEditedData = timeMaterialPageObj.GetEditedActualData(driver);
+            Assert.That(newActualEditedData == parameterTestData, "ActualEditedCode and Expected Code are not Matching");
+        }
+
     }
 }
