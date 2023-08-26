@@ -52,7 +52,7 @@ namespace TurnUpPortalAutomation.Pages
             return actualData.Text;
         }
 
-        public void EditRecord(IWebDriver driver,string code1)
+        public void EditRecord(IWebDriver driver,string code1, string code2)
         {
             //click the last page arrow button
             Wait.WaitToBeVisible(driver, "XPath", "//*[@id=\"tmsGrid\"]/div[4]/a[4]/span",5);
@@ -82,7 +82,7 @@ namespace TurnUpPortalAutomation.Pages
             //Enter Description
             IWebElement editDescriptionTextBox = driver.FindElement(By.Id("Description"));
             editDescriptionTextBox.Clear();
-            editDescriptionTextBox.SendKeys("Editing the Description");
+            editDescriptionTextBox.SendKeys(code2);
 
             //Enter Price
             IWebElement editPriceOverlappingTag = driver.FindElement(By.XPath("//*[@id=\"TimeMaterialEditForm\"]/div/div[4]/div/span[1]/span/input[1]"));
@@ -103,18 +103,35 @@ namespace TurnUpPortalAutomation.Pages
             editGoToLastPage1.Click();    
 
         }
-        public string GetEditedActualData(IWebDriver driver)
+        //For the Code Validation ,Returning the Actual Code Data
+        public string GetEditedCode(IWebDriver driver)
         {
-            IWebElement editedActualData = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
-            return editedActualData.Text;
+            IWebElement editedCodeActualData = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
+            return editedCodeActualData.Text;
         }
 
-        public void DeleteRecord( IWebDriver driver) 
+        //For the Description Validation, returning the actual description data
+        public string GetEditedDescrption(IWebDriver driver)
+        {
+            IWebElement editedDescrptionActualData = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[3]"));
+            return editedDescrptionActualData.Text;
+        }
+
+        public void CloseTheDriver(IWebDriver driver)
+        {
+            driver.Quit();
+        }
+
+        public void DeleteRecord(IWebDriver driver)
         {
             //Locate the Delete button and Click
-            try
             {
-                Wait.WaitToBeClickable(driver, "XPath", "//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[5]/a[2]", 7);
+
+                //Go to last page 
+                IWebElement editGoToLastPage1 = driver.FindElement(By.XPath(" //*[@id=\"tmsGrid\"]/div[4]/a[4]/span "));
+                editGoToLastPage1.Click();
+
+                Wait.WaitToBeClickable(driver, "XPath", "//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[5]/a[2]",5);
 
                 IWebElement deleteButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[5]/a[2]"));
                 deleteButton.Click();
@@ -122,17 +139,18 @@ namespace TurnUpPortalAutomation.Pages
                 //Pop up msg --switching to Alert
                 IAlert alert = driver.SwitchTo().Alert();
                 string alertMsg = driver.SwitchTo().Alert().Text;
-                Console.WriteLine(alertMsg);
 
                 //click Ok
                 alert.Accept();
-
-            } catch ( Exception ex)
-
-            { Assert.Fail("Cant find the element location",ex.Message); 
+                
             }
-
         }
-
+             public string GetDeleteTMRecord(IWebDriver driver)
+              {
+                  IWebElement deletedActualData = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
+                  return deletedActualData.Text;
+              }
+            
     }
 }
+

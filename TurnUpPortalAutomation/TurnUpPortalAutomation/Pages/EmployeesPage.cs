@@ -5,9 +5,12 @@ using SeleniumExtras.WaitHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using TurnUpPortalAutomation.Utilities;
+
 
 namespace TurnUpPortalAutomation.Pages
 {
@@ -25,11 +28,11 @@ namespace TurnUpPortalAutomation.Pages
 
             //Enter Employees Name
             IWebElement employeeNameTextBox = driver.FindElement(By.Id("Name"));
-            employeeNameTextBox.SendKeys("Rosy");
+            employeeNameTextBox.SendKeys("Joe");
 
             //Enter Username
             IWebElement employeeUserNameTextBox = driver.FindElement(By.Id("Username"));
-            employeeUserNameTextBox.SendKeys("Rosy");
+            employeeUserNameTextBox.SendKeys("Joe");
 
            //select Edit Contact button
             IWebElement employeeEditContactButton = driver.FindElement(By.Id("EditContactButton"));
@@ -43,11 +46,11 @@ namespace TurnUpPortalAutomation.Pages
             Wait.WaitToBeVisible(driver, "Id", "FirstName", 3);
             //Enter First Name in Edit Contact Employees Page
             IWebElement firstNameEditContactTextBox = driver.FindElement(By.Id("FirstName"));
-            firstNameEditContactTextBox.SendKeys("Jasmine");
+            firstNameEditContactTextBox.SendKeys("Joe");
 
             //Enter Last Name
             IWebElement lastNameEditContactTextBox = driver.FindElement(By.Id("LastName"));
-            lastNameEditContactTextBox.SendKeys("Love");
+            lastNameEditContactTextBox.SendKeys("Zoe");
 
             //Enter Prefered Name
             IWebElement preferdNameEditContactTeXtBox = driver.FindElement(By.Id("PreferedName"));
@@ -119,9 +122,20 @@ namespace TurnUpPortalAutomation.Pages
             IWebElement employeeVehicleTextBox = driver.FindElement(By.Name("VehicleId_input"));
             employeeVehicleTextBox.SendKeys("swift");
 
-            /*Enter Groups
-            IWebElement employeeGroupTextBox = driver.FindElement(By.XPath("//*[@id=\"UserEditForm\"]/div/div[8]/div/div/div[1]"));
-            employeeGroupTextBox.SendKeys("group2");*/
+            //Select  Groups dropdown list
+           //
+            Wait.WaitToBeVisible(driver, "XPath", "//div[@class='k-multiselect-wrap k-floatwrap']", 3);
+            IWebElement groupLists = driver.FindElement(By.XPath("//div[@class='k-multiselect-wrap k-floatwrap']"));
+            groupLists.Click();
+          
+          //Select the Group from the list
+            Wait.WaitToBeVisible(driver, "XPath", "//div[@id='groupList-list']/ul/li[3]",5);
+            IWebElement listoption1 = driver.FindElement(By.XPath("//div[@id='groupList-list']/ul/li[3]"));
+            listoption1.Click();
+            Thread.Sleep(4000);
+
+
+
 
             //Click Save Contact Button
             IWebElement employeeSaveButton = driver.FindElement(By.Id("SaveButton"));
@@ -144,7 +158,8 @@ namespace TurnUpPortalAutomation.Pages
             IWebElement actualCreateEmployeeData = driver.FindElement(By.XPath("//*[@id=\"usersGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
             Console.WriteLine(actualCreateEmployeeData.Text);
 
-            Assert.That(actualCreateEmployeeData.Text == "Rosy","New Employee record was Unsuccessful");
+
+            Assert.That(actualCreateEmployeeData.Text == "Joe","New Employee record was Unsuccessful");
         }
 
         public void EditEmployees(IWebDriver driver)
@@ -160,12 +175,12 @@ namespace TurnUpPortalAutomation.Pages
             //Enter EditEmployees Name
             IWebElement employeeNameTextBox = driver.FindElement(By.Id("Name"));
              employeeNameTextBox.Clear();
-            employeeNameTextBox.SendKeys("Maria");
+            employeeNameTextBox.SendKeys("Mercy");
 
             //Enter EditUsername
             IWebElement employeeUserNameTextBox = driver.FindElement(By.Id("Username"));
             employeeUserNameTextBox.Clear();
-            employeeUserNameTextBox.SendKeys("Maria");
+            employeeUserNameTextBox.SendKeys("Mercy");
 
             //select Edit Contact button
             IWebElement employeeEditContactButton = driver.FindElement(By.Id("EditContactButton"));
@@ -178,12 +193,12 @@ namespace TurnUpPortalAutomation.Pages
             //Enter First Name in Edit Contact Employees Page
             IWebElement firstNameEditContactTextBox = driver.FindElement(By.Id("FirstName"));
             firstNameEditContactTextBox.Clear();
-            firstNameEditContactTextBox.SendKeys("olivia");
+            firstNameEditContactTextBox.SendKeys("Mercy");
 
             //Enter Last Name
             IWebElement lastNameEditContactTextBox = driver.FindElement(By.Id("LastName"));
             lastNameEditContactTextBox.Clear();
-            lastNameEditContactTextBox.SendKeys("sweety");
+            lastNameEditContactTextBox.SendKeys("Sweety");
 
             //Enter Prefered Name
             IWebElement preferdNameEditContactTeXtBox = driver.FindElement(By.Id("PreferedName"));
@@ -267,9 +282,8 @@ namespace TurnUpPortalAutomation.Pages
             employeeVehicleTextBox.Clear();
             employeeVehicleTextBox.SendKeys("BMW");
 
-            /*Enter Groups
-            IWebElement employeeGroupTextBox = driver.FindElement(By.XPath("//*[@id=\"UserEditForm\"]/div/div[8]/div/div/div[1]"));
-            employeeGroupTextBox.SendKeys("group2");*/
+            //Group
+
 
             //Click Save Contact Button
             IWebElement employeeSaveButton = driver.FindElement(By.Id("SaveButton"));
@@ -286,11 +300,12 @@ namespace TurnUpPortalAutomation.Pages
             editGoToLastPage1.Click();
 
             IWebElement afterEditingActualData = driver.FindElement(By.XPath("//*[@id=\"usersGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
-            Assert.That(afterEditingActualData.Text == "Maria", "Actual Data and Expected Data are not matching");
+            Assert.That(afterEditingActualData.Text == "Mercy", "Actual Data and Expected Data are not matching");
         }
         public void DeleteEmployees(IWebDriver driver)
 
         {
+            //Go to last page 
             IWebElement editGoToLastPage1 = driver.FindElement(By.XPath("//*[@id=\"usersGrid\"]/div[4]/a[4]/span"));
             editGoToLastPage1.Click();
 
@@ -312,7 +327,7 @@ namespace TurnUpPortalAutomation.Pages
             
            // Validation
             IWebElement deleteActualData =driver.FindElement(By.XPath("//*[@id=\"usersGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
-            Assert.That(deleteActualData.Text != "Maria","Expected Employee Records undeleted");
+            Assert.That(deleteActualData.Text !="Mercy","Expected Employee Records undeleted");
         } 
     }
 }
